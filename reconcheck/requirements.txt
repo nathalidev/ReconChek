@@ -1,0 +1,14 @@
+# Análise e manipulação de dados
+pandas  # Biblioteca para análise de dados, DataFrames e manipulação de arquivos CSV/Excel
+
+# Processamento de documentos PDF
+pdfplumber  # Extração de texto e dados de arquivos PDF
+
+# Manipulação de arquivos Excel
+openpyxl  # Leitura e escrita de arquivos Excel (.xlsx/.xlsm)
+
+# Interface web para aplicações
+streamlit  # Framework para criar aplicações web interativas rapidamente
+
+# Testes automatizados
+pytest  # Framework de testes para Python
