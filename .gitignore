@@ -1,0 +1,3 @@
+.venv/
+
+# O .gitignore serve como uma lista de arquivos e pastas que o Git deve ignorar — ou seja, ele não rastreia, não comita e não mostra como alteração tudo o que estiver listado ali.
