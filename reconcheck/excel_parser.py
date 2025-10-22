@@ -1,41 +1,40 @@
 import pandas as pd
 
-dados_apolice_vida = pd.read_excel("/home/natha/Área de trabalho/ReconChek/data/apolice_vida_reestruturada.xlsx", na_values=['N/A', 'sem dados', '-'])
+def carregar_excel(caminho):
+    dados_apolice_vida = pd.read_excel(caminho, na_values=['N/A', 'sem dados', '-'])
+    return dados_apolice_vida
 
-colunas_numericas = ["Prêmio Anual", "Garantia_Valor"]
-colunas_de_data = ["Início da Vigência", "Fim da Vigência", "Próximo Vencimento"]
-for coluna in colunas_numericas:
-    dados_apolice_vida[coluna] = pd.to_numeric(dados_apolice_vida[coluna].str.replace("R\$", "").str.replace(",", "."), errors='coerce')
-    #error coerce transforma valores inválidos em NaN
+def exibir_dados_sem_vazios(dados_apolice_vida):
+    apolice_sem_dados_vazios = dados_apolice_vida.dropna()
+    return apolice_sem_dados_vazios
 
-for coluna in colunas_de_data:
-    dados_apolice_vida[coluna] = pd.to_datetime(dados_apolice_vida[coluna], format="%d/%m/%Y", errors='coerce')
-    #o format especifica o formato da data presente no arquivo excel, insira o mesmo formato dos dados no arquivo excel.
+def conversao_tipos_dados(dados_apolice_vida, colunas_numericas, colunas_de_data):
+    for coluna in colunas_numericas:
+        dados_apolice_vida[coluna] = pd.to_numeric(dados_apolice_vida[coluna].str.replace("R\$", "").str.replace(",", "."), errors='coerce')
+        #error coerce transforma valores inválidos em NaN
+
+    for coluna in colunas_de_data:
+        dados_apolice_vida[coluna] = pd.to_datetime(dados_apolice_vida[coluna], format="%d/%m/%Y", errors='coerce')
+        #o format especifica o formato da data presente no arquivo excel, insira o mesmo formato dos dados no arquivo excel.
 
 #skiprows=3 para pular as 3 primeiras linhas do arquivo excel.
 
-def padronizacao_colunas(colunas):
-    if isinstance(colunas, list):
-        for coluna in colunas:
-            if "_" in coluna:
-                nova_coluna = coluna.replace("_", " ")
-                dados_apolice_vida.rename(columns={coluna: nova_coluna}, inplace=True)
-                # a tabela é tratada como dicionário para fazer a mudança de coluna como se fosse um dicionário
-    else:
-        if "_" in colunas:
-            nova_coluna = colunas.replace("_", " ")
-            dados_apolice_vida.rename(columns={colunas: nova_coluna}, inplace=True)
+def padronizacao_colunas(dados_apolice_vida):
+    for coluna in dados_apolice_vida.columns:
+        if "_" in coluna:
+            nova_coluna = coluna.replace("_", " ")
+            dados_apolice_vida.rename(columns={coluna: nova_coluna}, inplace=True)
+            # a tabela é tratada como dicionário para fazer a mudança de coluna como se fosse um dicionário
 
 
-dados_apolice_sem_vazios = dados_apolice_vida.dropna() # Remover linhas com valores ausentes
-print("\n--- COLUNAS ---")
-print(dados_apolice_sem_vazios.columns)
+def exibindo_colunas(dados_apolice_sem_vazios):
+    return f"\n--- COLUNAS ---\n{dados_apolice_sem_vazios.columns}"
 
-print("\n--- TIPOS DE DADOS ---")
-print(dados_apolice_sem_vazios.dtypes)
+def exibindo_tipos_dados(dados_apolice_sem_vazios):
+    return f"\n--- TIPOS DE DADOS ---\n{dados_apolice_sem_vazios.dtypes}"
 
-print("\n--- PRIMEIRAS LINHAS ---")
-print(dados_apolice_sem_vazios.head(5)) #serve para visualizar rapidamente as primeiras linhas de um DataFrame — como uma amostra inicial dos dados.
+def exibindo_primeiras_linhas(dados_apolice_sem_vazios, numero_de_linhas_a_exibir):
+    return f"\n--- PRIMEIRAS LINHAS ---\n{dados_apolice_sem_vazios.head(numero_de_linhas_a_exibir)}"
 
 # O parâmetro sheet_name do pd.read_excel() serve para especificar qual aba (ou abas) do arquivo Excel você quer ler. Isso é útil 
 # quando o Excel tem várias planilhas e você só quer trabalhar com uma delas — ou com todas.
