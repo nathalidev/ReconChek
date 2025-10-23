@@ -40,5 +40,15 @@ def exibindo_primeiras_linhas(dados_apolice_sem_vazios, numero_de_linhas_a_exibi
 # quando o Excel tem várias planilhas e você só quer trabalhar com uma delas — ou com todas.
 # ele iria no mesmo local do na_values
 
+carregar_excel("/home/natha/Área de trabalho/ReconChek/data/apolice_vida_ficticia.xlsx")
+#leio o arquivo excel e retorno um DataFrame
 
+padronizacao_colunas(carregar_excel("/home/natha/Área de trabalho/ReconChek/data/apolice_vida_ficticia.xlsx"))
+# troco os _ por espaços nas colunas do DataFrame e faço a mudança como faria em um dicionário
+
+conversao_tipos_dados(carregar_excel("/home/natha/Área de trabalho/ReconChek/data/apolice_vida_ficticia.xlsx"), ["Valor do Seguro", "Prêmio"], ["Data de Início", "Data de Término"])
+# converto os tipos de dados das colunas numéricas e de data para os tipos corretos
+
+print(exibir_dados_sem_vazios(carregar_excel("/home/natha/Área de trabalho/ReconChek/data/apolice_vida_ficticia.xlsx")))
+# exibo o DataFrame sem os dados vazios
 
